@@ -22,12 +22,15 @@ import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import com.massivecraft.factions.Factions;
+import com.massivecraft.factions.entity.MPlayer;
 import com.sk89q.wepif.PermissionsProvider;
 
 import be.maximvdw.placeholderapi.PlaceholderAPI;
 import be.maximvdw.placeholderapi.PlaceholderReplaceEvent;
 import be.maximvdw.placeholderapi.PlaceholderReplacer;
 import fr.badblock.api.common.utils.permissions.PermissionsManager;
+import fr.badblock.game.core112R1.listeners.ChatListener;
 import fr.badblock.gameapi.GameAPI;
 import fr.badblock.gameapi.events.api.PlayerLoadedEvent;
 import fr.badblock.gameapi.players.BadblockPlayer;
@@ -40,6 +43,7 @@ public class BadBlockFaction extends JavaPlugin implements Listener, Permissions
 	private Map<String, Long> lastJoin = new HashMap<>();
 
 	public char generateForId(int id){
+
 		int A = 'A';
 
 		if(id > 26){
@@ -112,6 +116,16 @@ public class BadBlockFaction extends JavaPlugin implements Listener, Permissions
 			{
 				for (BadblockPlayer player : BukkitUtils.getAllPlayers())
 				{
+
+					MPlayer pl = MPlayer.get(player);
+					if (pl.hasFaction())
+					{
+						ChatListener.levels.put(player.getUniqueId(), pl.getFactionName());
+					}
+					else
+					{
+						ChatListener.levels.put(player.getUniqueId(), "Orphelin");
+					}
 
 					player.removePotionEffect(PotionEffectType.SLOW_DIGGING);
 
@@ -211,7 +225,7 @@ public class BadBlockFaction extends JavaPlugin implements Listener, Permissions
 		{
 			Bukkit.broadcastMessage("§f[§a+§f] " + player.getName());
 		}
-		
+
 		Bukkit.getScheduler().runTask(this, new Runnable()
 		{
 			@Override

@@ -2,4 +2,4 @@ name: BadBlockFaction
 main: fr.badblock.faction.BadBlockFaction
 author: xMalware
 version: 1.0
-depends: [BadblockGameAPI, MVdWPlaceholderAPI]
+depends: [BadblockGameAPI, MVdWPlaceholderAPI, Factions]
